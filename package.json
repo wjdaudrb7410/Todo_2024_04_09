@@ -1,6 +1,6 @@
 {
   "name": "todo_list_24_04_09",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -27,8 +27,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
+  "homepage": "https://wjdaudrb7410.github.io/Todo_2024_04_09/#/",
   "eslintConfig": {
     "extends": [
       "react-app",

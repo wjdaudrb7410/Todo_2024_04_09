@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import { pattern } from "../../pattern";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
+import { Header } from "../../components/Header";
+import { HelmetTitle } from "../../components/HelmetTitle";
 
 export const Home = () => {
   const nav = useNavigate();
@@ -30,7 +32,9 @@ export const Home = () => {
   };
 
   return (
-    <Container>
+    <Container height={"100vh"}>
+      <HelmetTitle title={"Home"} />
+      <Header />
       <Box as="form" onSubmit={handleSubmit(onSubmit)}>
         <Input
           {...register("username", {

@@ -30,6 +30,7 @@ import { useParams } from "react-router-dom";
 import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
+import { HelmetTitle } from "../../components/HelmetTitle";
 const currentPriority = "Priority";
 export const Todos = () => {
   const {
@@ -86,7 +87,8 @@ export const Todos = () => {
   }, [todos]);
   return (
     <>
-      <Container>
+      <Container height={"100vh"}>
+        <HelmetTitle title={"Todo"} />
         <Header Username={userdata.username} />
         <Text>오늘</Text>
         <Text>

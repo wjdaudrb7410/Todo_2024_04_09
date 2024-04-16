@@ -6,9 +6,14 @@ import {
   HStack,
   Heading,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export const Header = ({ Username }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -16,18 +21,33 @@ export const Header = ({ Username }) => {
     <Container>
       <HStack justifyContent={"space-between"}>
         <Heading height="100%" color="yellow.400">
-          WTD
+          <Link to={Username ? `/todo/${Username}` : "/"}>WTD</Link>
         </Heading>
         <HStack>
           <IconButton
             onClick={toggleColorMode}
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
           ></IconButton>
-          <Text textAlign={"Center"} width={100}>
-            환영합니다
-            {Username}!
-          </Text>
-          <Avatar name={Username} />
+          {Username ? (
+            <>
+              <Text textAlign={"Center"} width={100}>
+                환영합니다
+                {Username}!
+              </Text>
+              <Menu>
+                <MenuButton>
+                  <Avatar name={Username} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem>
+                    <Link to={"/"}>로그아웃</Link>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
+          ) : (
+            <></>
+          )}
         </HStack>
       </HStack>
     </Container>

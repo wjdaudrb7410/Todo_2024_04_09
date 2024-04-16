@@ -13,6 +13,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { routes } from "../../routes";
 import { Modals } from "../../components/Modals";
+import { Header } from "../../components/Header";
+import { HelmetTitle } from "../../components/HelmetTitle";
 const Word = {
   Duplicate: "중복된 아이디가 있습니다.",
   Success: "가서 로그인을 시도하세요",
@@ -47,7 +49,9 @@ export const Register = () => {
     reset();
   };
   return (
-    <Container>
+    <Container height={"100vh"}>
+      <HelmetTitle title={"Register"} />
+      <Header />
       <Box as="form" onSubmit={handleSubmit(onRegister)}>
         <VStack spacing={3}>
           <Input

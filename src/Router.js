@@ -4,6 +4,7 @@ import { routes } from "./routes";
 import { FoF } from "./pages/pg404/FoF";
 import { Register } from "./pages/Register/Register";
 import { Todos } from "./pages/Todo/Todos";
+import { Footer } from "./components/Footer";
 
 export const Router = () => {
   return (
@@ -14,6 +15,7 @@ export const Router = () => {
         <Route path={routes.FoF} element={<FoF />} />
         <Route path={routes.todo} element={<Todos />} />
       </Routes>
+      <Footer></Footer>
     </HashRouter>
   );
 };

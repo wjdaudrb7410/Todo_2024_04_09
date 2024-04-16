@@ -5,5 +5,9 @@ const theme = extendTheme({
     heading: '"Noto Sans KR","sans-serif"',
     body: '"Noto Sans KR","sans-serif"',
   },
+  config: {
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
 });
 export default theme;

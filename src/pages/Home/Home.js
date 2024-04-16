@@ -8,10 +8,11 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { pattern } from "../../pattern";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../routes";
 
 export const Home = () => {
+  const nav = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,7 +21,11 @@ export const Home = () => {
   } = useForm();
   const onSubmit = (data) => {
     const result = data;
-    console.log(result);
+    const query = JSON.parse(window.localStorage.getItem(result.username));
+    console.log(query);
+    if (result.password === query.password) {
+      nav(`/todo/${query.username}`);
+    }
     reset();
   };
 

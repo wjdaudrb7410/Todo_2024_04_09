@@ -1,6 +1,6 @@
 export const routes = {
   home: "/",
   register: "/login",
-  todo: "/todo:id",
+  todo: "/todo/:id",
   FoF: "/*",
 };

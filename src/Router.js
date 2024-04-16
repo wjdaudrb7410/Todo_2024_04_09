@@ -3,6 +3,7 @@ import { Home } from "./pages/Home/Home";
 import { routes } from "./routes";
 import { FoF } from "./pages/pg404/FoF";
 import { Register } from "./pages/Register/Register";
+import { Todos } from "./pages/Todo/Todos";
 
 export const Router = () => {
   return (
@@ -11,6 +12,7 @@ export const Router = () => {
         <Route path={routes.home} element={<Home />} />
         <Route path={routes.register} element={<Register />} />
         <Route path={routes.FoF} element={<FoF />} />
+        <Route path={routes.todo} element={<Todos />} />
       </Routes>
     </HashRouter>
   );

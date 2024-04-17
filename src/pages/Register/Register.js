@@ -2,7 +2,11 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Text,
   VStack,
   useDisclosure,
@@ -15,12 +19,15 @@ import { routes } from "../../routes";
 import { Modals } from "../../components/Modals";
 import { Header } from "../../components/Header";
 import { HelmetTitle } from "../../components/HelmetTitle";
+import { ErrMsg, radius } from "../../constant/parameter";
+import { EmailIcon, LockIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { FaUser } from "react-icons/fa";
 const Word = {
   Duplicate: "중복된 아이디가 있습니다.",
   Success: "가서 로그인을 시도하세요",
 };
 export const Register = () => {
-  const [canOpen, SetOpen] = useState(false);
+  const [show, setShow] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [resText, setText] = useState();
   const {
@@ -34,7 +41,6 @@ export const Register = () => {
     const result = data;
     if (window.localStorage.getItem(result.username)) {
       setText(Word.Duplicate);
-      SetOpen(!canOpen);
     } else {
       window.localStorage.setItem(
         result.username,
@@ -44,77 +50,125 @@ export const Register = () => {
         })
       );
       setText(Word.Success);
-      SetOpen(!canOpen);
     }
+    onOpen();
     reset();
   };
+  const handleClick = () => {
+    setShow(!show);
+  };
   return (
-    <Container height={"100vh"}>
+    <Container height={"100vh"} p={"20px 30px"}>
       <HelmetTitle title={"Register"} />
       <Header />
       <Box as="form" onSubmit={handleSubmit(onRegister)}>
-        <VStack spacing={3}>
-          <Input
-            placeholder="이메일"
-            {...register("email", {
-              required: "이메일을 입력하세요",
-              minLength: {
-                value: 4,
-                message: "이메일이 너무 짧습니다.",
-              },
-              pattern: {
-                value: pattern.email,
-                message: "이메일 형식에 맞게 작성해주세요",
-              },
-            })}
-          />
+        <VStack spacing={2} marginTop={5}>
+          {/* 이메일Section */}
+          <InputGroup>
+            <InputLeftElement>
+              <InputLeftElement
+                left={1}
+                pointerEvents={"none"}
+                children={<EmailIcon boxSize={5} />}
+              ></InputLeftElement>
+            </InputLeftElement>
+            <Input
+              boxShadow="lg"
+              placeholder="이메일"
+              borderRadius={radius.main}
+              {...register("email", {
+                required: ErrMsg.require,
+                minLength: {
+                  value: 4,
+                  message: "이메일이 너무 짧습니다.",
+                },
+                pattern: {
+                  value: pattern.email,
+                  message: "이메일 형식에 맞게 작성해주세요",
+                },
+              })}
+            />
+          </InputGroup>
+          {/* 아이디Section */}
           <Text>{errors?.email?.message}</Text>
-          <Input
-            placeholder="아이디"
-            {...register("username", {
-              required: "아이디를 입력하세요",
-              minLength: {
-                value: 8,
-                message: "8자리 이상입니다.",
-              },
-              pattern: {
-                value: pattern.id,
-                message: "영문 숫자조합만 가능합니다.",
-              },
-            })}
-          />
+          <InputGroup>
+            <InputLeftElement>
+              <InputLeftElement
+                left={1}
+                pointerEvents={"none"}
+                children={<FaUser boxSize={5} />}
+              ></InputLeftElement>
+            </InputLeftElement>
+            <Input
+              boxShadow="lg"
+              placeholder="아이디"
+              borderRadius={radius.main}
+              {...register("username", {
+                required: ErrMsg.require,
+                minLength: {
+                  value: 2,
+                  message: "2자리 이상입니다.",
+                },
+                pattern: {
+                  value: pattern.id,
+                  message: "영문 숫자조합만 가능합니다.",
+                },
+              })}
+            />
+          </InputGroup>
           <Text>{errors?.username?.message}</Text>
-          <Input
-            placeholder="비밀번호"
-            {...register("password", {
-              required: "비밀번호를 입력하세요",
-              minLength: {
-                value: 3,
-                message: "최소 3자리 이상",
-              },
-              pattern: {
-                value: pattern.password,
-                message: "특수문자가 포함되어야 합니다.",
-              },
-            })}
-          />
+          {/* 비밀번호Section */}
+          <InputGroup>
+            <InputLeftElement
+              left={1}
+              pointerEvents={"none"}
+              children={<LockIcon boxSize={5} />}
+            ></InputLeftElement>
+            <Input
+              boxShadow="lg"
+              placeholder="비밀번호"
+              borderRadius={radius.main}
+              type={show ? "text" : "password"}
+              {...register("password", {
+                required: ErrMsg.require,
+                minLength: {
+                  value: 3,
+                  message: "최소 3자리 이상",
+                },
+                pattern: {
+                  value: pattern.password,
+                  message: "특수문자가 포함되어야 합니다.",
+                },
+              })}
+            />
+            <InputRightElement
+              right={1}
+              pointerEvents={"all"}
+              onClick={handleClick}
+              children={
+                show ? <ViewIcon boxSize={5} /> : <ViewOffIcon boxSize={5} />
+              }
+            />
+          </InputGroup>
           <Text>{errors?.password?.message}</Text>
+          {/* 회원가입 버튼 */}
           <Button
             colorScheme="blue"
             type="submit"
-            onClick={() => {
-              if (canOpen) {
-                onOpen();
-                SetOpen(false);
-              }
-            }}
+            height={7}
+            width={150}
+            borderRadius={radius.main}
+            marginTop={5}
           >
             회원가입
           </Button>
-          <Button>
+          <Divider margin={"10px 0"}></Divider>
+          {/* 로그인 페이지 이동 버튼 */}
+          <Button height={7} width={150} borderRadius={radius.main}>
             <Link to={routes.home}>로그인 페이지로</Link>
           </Button>
-          <Modals isopen={isOpen} onClose={onClose} Text={resText}></Modals>
+          {/* 모달창 */}
+          <Modals isopen={isOpen} onClose={onClose} Text={resText} />
         </VStack>
       </Box>
     </Container>

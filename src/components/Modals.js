@@ -12,6 +12,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Modals = ({ isopen, onClose, Text }) => {
   const [resText, setText] = useState();
@@ -42,7 +43,7 @@ export const Modals = ({ isopen, onClose, Text }) => {
             Close
           </Button>
           <Button variant="ghost" onClick={onClose}>
-            로그인 페이지로
+            <Link to={"/"}>로그인 페이지로</Link>
           </Button>
         </ModalFooter>
       </ModalContent>

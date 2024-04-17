@@ -15,7 +15,7 @@ export const Router = () => {
         <Route path={routes.FoF} element={<FoF />} />
         <Route path={routes.todo} element={<Todos />} />
       </Routes>
-      <Footer></Footer>
+      {/* <Footer /> */}
     </HashRouter>
   );
 };

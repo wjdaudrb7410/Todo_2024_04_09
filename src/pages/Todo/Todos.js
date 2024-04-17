@@ -24,6 +24,9 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
+  Divider,
+  flattenTokens,
+  IconButton,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -31,13 +34,14 @@ import { AddIcon, DeleteIcon, MinusIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { HelmetTitle } from "../../components/HelmetTitle";
+import { ErrMsg, radius } from "../../constant/parameter";
 const currentPriority = "Priority";
 export const Todos = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    reset,
   } = useForm({
     defaultpri: { Priority: "" },
   });
@@ -55,6 +59,7 @@ export const Todos = () => {
         finish: false,
       },
     ]);
+    reset();
     console.log(todos);
   };
   const onChanges = (id) => {
@@ -68,10 +73,15 @@ export const Todos = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const today = new Date();
+  const todays = new Date();
+
   const cancelRef = useRef();
   const { id } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [today, SetDay] = useState({
+    Month: todays.getMonth(),
+    Day: todays.getDay(),
+  });
   const [value, setValue] = useState("하");
   const [currentID, setCurrentID] = useState();
   const [userdata, SetData] = useState(() => {
@@ -87,12 +97,14 @@ export const Todos = () => {
   }, [todos]);
   return (
     <>
-      <Container height={"100vh"}>
+      <Container height={"100vh"} p={"20px 30px"}>
         <HelmetTitle title={"Todo"} />
         <Header Username={userdata.username} />
-        <Text>오늘</Text>
+        <Text fontSize={"xl"} fontWeight={"700"}>
+          오늘
+        </Text>
         <Text>
-          {today.getMonth()}월{today.getDay()}일
+          {today.Month + 1}월{today.Day + 14}일
         </Text>
 
         <Accordion allowToggle>
@@ -110,21 +122,35 @@ export const Todos = () => {
                   )}
                 </AccordionButton>
                 <AccordionPanel pb={4}>
-                  <Box as="form" onSubmit={handleSubmit(onSubmit)}>
+                  <Box
+                    as="form"
+                    onSubmit={handleSubmit(onSubmit)}
+                    display={"flex"}
+                    flexDirection={"column"}
+                  >
                     <Input
+                      boxShadow="lg"
                       placeholder="할일"
                       {...register("Schedule", {
-                        required: "할일을 입력하세요",
+                        required: ErrMsg.require,
                       })}
+                      borderRadius={radius.main}
+                      marginTop={3}
                     />
                     {errors?.Schedule?.message && (
-                      <Alert status="error" borderRadius={10}>
+                      <Alert status="error" borderRadius={radius.main}>
                         <AlertIcon />
                         {errors?.Schedule?.message}
                       </Alert>
                     )}
-                    <RadioGroup onChange={setValue} value={value}>
-                      <Stack direction={"row"}>
+                    <Divider padding={"10px 0"} />
+                    <RadioGroup
+                      onChange={setValue}
+                      value={value}
+                      marginTop={3}
+                      alignSelf={"center"}
+                    >
+                      <Stack direction={"row"} spacing={10}>
                         <Radio
                           colorScheme="green"
                           value="하"
@@ -148,7 +174,16 @@ export const Todos = () => {
                         </Radio>
                       </Stack>
                     </RadioGroup>
-                    <Button type="submit">제출</Button>
+                    <Divider padding={"10px 0"} />
+                    <Button
+                      type="submit"
+                      borderRadius={radius.main}
+                      height={7}
+                      alignSelf={"flex-end"}
+                      marginTop={3}
+                    >
+                      제출
+                    </Button>
                   </Box>
                 </AccordionPanel>
               </>
@@ -158,35 +193,47 @@ export const Todos = () => {
         <VStack>
           {userdata &&
             todos.map((rsl) => (
-              <Box key={rsl.id}>
+              <Box
+                key={rsl.id}
+                display={"flex"}
+                width={"100%"}
+                height={"80px"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                borderRadius={10}
+                marginTop={5}
+                boxShadow={"lg"}
+              >
                 <Checkbox
                   p={"15px"}
                   size={"lg"}
                   isChecked={rsl.finish}
                   onChange={() => onChanges(rsl.id)}
                 />
-                {rsl.Schedule}
-                <DeleteIcon
+                <VStack>
+                  <Text>{rsl.Schedule}</Text>
+                  <RadioGroup value={rsl.Priority}>
+                    <Stack direction={"row"} spacing={10}>
+                      <Radio colorScheme="green" value="하">
+                        하
+                      </Radio>
+                      <Radio colorScheme="yellow" value="중">
+                        중
+                      </Radio>
+                      <Radio colorScheme="red" value="상">
+                        상
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                </VStack>
+                <IconButton
+                  marginRight={5}
+                  icon={<DeleteIcon />}
                   onClick={() => {
                     onOpen();
-                    //연결된 창을 열어주는 것으로 onOpen 과 isOpen은 서로 같이 써줘야함.
                     setCurrentID(rsl.id);
-                    // 현재의 아이디값을 넘겨줌으로써 어떤것인지를 알려줌.
                   }}
-                />
-                <RadioGroup value={rsl.Priority}>
-                  <Stack direction={"row"}>
-                    <Radio colorScheme="green" value="하">
-                      하
-                    </Radio>
-                    <Radio colorScheme="yellow" value="중">
-                      중
-                    </Radio>
-                    <Radio colorScheme="red" value="상">
-                      상
-                    </Radio>
-                  </Stack>
-                </RadioGroup>
+                ></IconButton>
               </Box>
             ))}
         </VStack>

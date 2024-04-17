@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Todo_2024_04_09/static/css/main.2d178a22.css",
-    "main.js": "/Todo_2024_04_09/static/js/main.851e26af.js",
+    "main.js": "/Todo_2024_04_09/static/js/main.32684ed6.js",
     "static/media/noto-sans-kr-65-400-normal.woff": "/Todo_2024_04_09/static/media/noto-sans-kr-65-400-normal.e62f6740db7faa1418fb.woff",
     "static/media/noto-sans-kr-79-400-normal.woff": "/Todo_2024_04_09/static/media/noto-sans-kr-79-400-normal.faa75ab00600c6eadb4c.woff",
     "static/media/noto-sans-kr-71-400-normal.woff": "/Todo_2024_04_09/static/media/noto-sans-kr-71-400-normal.7d2e655c0973d1d5e4f8.woff",
@@ -252,10 +252,10 @@
     "static/media/noto-sans-kr-latin-ext-400-normal.woff2": "/Todo_2024_04_09/static/media/noto-sans-kr-latin-ext-400-normal.1fc444bff94456e8ed53.woff2",
     "index.html": "/Todo_2024_04_09/index.html",
     "main.2d178a22.css.map": "/Todo_2024_04_09/static/css/main.2d178a22.css.map",
-    "main.851e26af.js.map": "/Todo_2024_04_09/static/js/main.851e26af.js.map"
+    "main.32684ed6.js.map": "/Todo_2024_04_09/static/js/main.32684ed6.js.map"
   },
   "entrypoints": [
     "static/css/main.2d178a22.css",
-    "static/js/main.851e26af.js"
+    "static/js/main.32684ed6.js"
   ]
 }

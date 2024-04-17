@@ -27,6 +27,7 @@ import {
   Divider,
   flattenTokens,
   IconButton,
+  Icon,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -35,6 +36,7 @@ import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { HelmetTitle } from "../../components/HelmetTitle";
 import { ErrMsg, radius } from "../../constant/parameter";
+import { BsDisplay } from "react-icons/bs";
 const currentPriority = "Priority";
 export const Todos = () => {
   const {
@@ -99,101 +101,127 @@ export const Todos = () => {
     <>
       <Container height={"100vh"} p={"20px 30px"}>
         <HelmetTitle title={"Todo"} />
-        <Header Username={userdata.username} />
-        <Text fontSize={"xl"} fontWeight={"700"}>
-          오늘
-        </Text>
-        <Text>
-          {today.Month + 1}월{today.Day + 14}일
-        </Text>
+        <Box
+          border={"2px"}
+          borderColor={"gray.400"}
+          borderTop={0}
+          borderBottomRadius={"20px"}
+        >
+          <Header Username={userdata.username} />
+          <Box margin={"60px 20px"}>
+            <Text fontSize={"xl"} fontWeight={"700"}>
+              Today
+            </Text>
+            <Text fontSize={12} opacity={0.7}>
+              {today.Month + 1}월{today.Day + 14}일
+            </Text>
+            <Accordion allowToggle>
+              <AccordionItem
+                border={"none"}
+                _hover={{ bgColor: "transparent" }}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+              >
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton
+                      bgColor={"gray.300"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      width={30}
+                      borderRadius={"50%"}
+                      w={"20px"}
+                      h={"30px"}
+                      marginTop={"30px"}
+                    >
+                      {isExpanded ? (
+                        <MinusIcon fontSize="16px" />
+                      ) : (
+                        <AddIcon fontSize="16px" />
+                      )}
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <Box
+                        as="form"
+                        onSubmit={handleSubmit(onSubmit)}
+                        display={"flex"}
+                        flexDirection={"column"}
+                      >
+                        <Input
+                          width={"300px"}
+                          boxShadow="lg"
+                          placeholder="할일"
+                          {...register("Schedule", {
+                            required: ErrMsg.require,
+                          })}
+                          borderRadius={radius.main}
+                          marginTop={10}
+                        />
+                        {errors?.Schedule?.message && (
+                          <Alert
+                            marginTop={2}
+                            boxShadow="lg"
+                            status="error"
+                            borderRadius={radius.main}
+                          >
+                            <AlertIcon />
+                            {errors?.Schedule?.message}
+                          </Alert>
+                        )}
+                        <RadioGroup
+                          onChange={setValue}
+                          value={value}
+                          marginTop={10}
+                          alignSelf={"center"}
+                        >
+                          <Stack direction={"row"} spacing={10}>
+                            <Radio
+                              colorScheme="green"
+                              value="하"
+                              {...register(currentPriority)}
+                            >
+                              하
+                            </Radio>
+                            <Radio
+                              colorScheme="yellow"
+                              value="중"
+                              {...register(currentPriority)}
+                            >
+                              중
+                            </Radio>
+                            <Radio
+                              colorScheme="red"
+                              value="상"
+                              {...register(currentPriority)}
+                            >
+                              상
+                            </Radio>
+                          </Stack>
+                        </RadioGroup>
+                        <Button
+                          type="submit"
+                          borderRadius={radius.main}
+                          height={7}
+                          alignSelf={"flex-end"}
+                          marginTop={10}
+                        >
+                          제출
+                        </Button>
+                      </Box>
+                    </AccordionPanel>
+                  </>
+                )}
+              </AccordionItem>
+            </Accordion>
+          </Box>
+        </Box>
 
-        <Accordion allowToggle>
-          <AccordionItem>
-            {({ isExpanded }) => (
-              <>
-                <AccordionButton>
-                  <Box as="span" flex={1} textAlign={"left"}>
-                    할일 추가하기
-                  </Box>
-                  {isExpanded ? (
-                    <MinusIcon fontSize="12px" />
-                  ) : (
-                    <AddIcon fontSize="12px" />
-                  )}
-                </AccordionButton>
-                <AccordionPanel pb={4}>
-                  <Box
-                    as="form"
-                    onSubmit={handleSubmit(onSubmit)}
-                    display={"flex"}
-                    flexDirection={"column"}
-                  >
-                    <Input
-                      boxShadow="lg"
-                      placeholder="할일"
-                      {...register("Schedule", {
-                        required: ErrMsg.require,
-                      })}
-                      borderRadius={radius.main}
-                      marginTop={3}
-                    />
-                    {errors?.Schedule?.message && (
-                      <Alert status="error" borderRadius={radius.main}>
-                        <AlertIcon />
-                        {errors?.Schedule?.message}
-                      </Alert>
-                    )}
-                    <Divider padding={"10px 0"} />
-                    <RadioGroup
-                      onChange={setValue}
-                      value={value}
-                      marginTop={3}
-                      alignSelf={"center"}
-                    >
-                      <Stack direction={"row"} spacing={10}>
-                        <Radio
-                          colorScheme="green"
-                          value="하"
-                          {...register(currentPriority)}
-                        >
-                          하
-                        </Radio>
-                        <Radio
-                          colorScheme="yellow"
-                          value="중"
-                          {...register(currentPriority)}
-                        >
-                          중
-                        </Radio>
-                        <Radio
-                          colorScheme="red"
-                          value="상"
-                          {...register(currentPriority)}
-                        >
-                          상
-                        </Radio>
-                      </Stack>
-                    </RadioGroup>
-                    <Divider padding={"10px 0"} />
-                    <Button
-                      type="submit"
-                      borderRadius={radius.main}
-                      height={7}
-                      alignSelf={"flex-end"}
-                      marginTop={3}
-                    >
-                      제출
-                    </Button>
-                  </Box>
-                </AccordionPanel>
-              </>
-            )}
-          </AccordionItem>
-        </Accordion>
         <VStack>
           {userdata &&
             todos.map((rsl) => (
               <Box
+                bgColor={"white.400"}
                 key={rsl.id}
                 display={"flex"}
                 width={"100%"}
@@ -211,7 +239,7 @@ export const Todos = () => {
                   onChange={() => onChanges(rsl.id)}
                 />
                 <VStack>
-                  <Text>{rsl.Schedule}</Text>
+                  <Text fontSize={"20px"}>{rsl.Schedule}</Text>
                   <RadioGroup value={rsl.Priority}>
                     <Stack direction={"row"} spacing={10}>
                       <Radio colorScheme="green" value="하">

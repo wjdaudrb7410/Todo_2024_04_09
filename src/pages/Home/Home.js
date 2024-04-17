@@ -38,7 +38,7 @@ export const Home = () => {
     const result = data;
     const query = JSON.parse(window.localStorage.getItem(result.username));
     console.log(query);
-    if (result.password === query.password) {
+    if (result.password === query?.password) {
       nav(`/todo/${query.username}`);
     } else {
       toast({
@@ -141,9 +141,11 @@ export const Home = () => {
           {/*구분선*/}
           <Divider margin={"10px 0"} />
           {/*회원가입 버튼*/}
-          <Button height={7} width={150} borderRadius={radius.main}>
-            <Link to={routes.register}>회원가입</Link>
-          </Button>
+          <Link to={routes.register}>
+            <Button height={7} width={150} borderRadius={radius.main}>
+              회원가입
+            </Button>
+          </Link>
         </Box>
       </VStack>
     </Container>

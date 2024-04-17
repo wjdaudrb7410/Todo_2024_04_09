@@ -19,7 +19,7 @@ export const Header = ({ Username }) => {
   return (
     <Container>
       <HStack justifyContent={"space-between"}>
-        <Heading height="100%" color={Color.Point}>
+        <Heading height="100%" color={Color.Point} fontSize={24}>
           <Link to={Username ? `/todo/${Username}` : "/"}>WTD</Link>
         </Heading>
         <HStack spacing={3}>
@@ -31,7 +31,7 @@ export const Header = ({ Username }) => {
             <>
               <Menu>
                 <MenuButton>
-                  <Avatar name={Username} />
+                  <Avatar size={"sm"} name={Username} />
                 </MenuButton>
                 <MenuList>
                   <MenuItem>

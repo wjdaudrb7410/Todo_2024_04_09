@@ -96,7 +96,7 @@ export const Register = () => {
               <InputLeftElement
                 left={1}
                 pointerEvents={"none"}
-                children={<FaUser boxSize={5} />}
+                children={<FaUser size={20} />}
               ></InputLeftElement>
             </InputLeftElement>
             <Input

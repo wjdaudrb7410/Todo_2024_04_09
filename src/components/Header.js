@@ -17,7 +17,12 @@ import { Color } from "../constant/parameter";
 export const Header = ({ Username }) => {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <Container>
+    <Container
+      height={"80px"}
+      display={"flex"}
+      flexDirection={"column"}
+      justifyContent={"center"}
+    >
       <HStack justifyContent={"space-between"}>
         <Heading height="100%" color={Color.Point} fontSize={24}>
           <Link to={Username ? `/todo/${Username}` : "/"}>WTD</Link>

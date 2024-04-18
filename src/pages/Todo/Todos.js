@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Container,
@@ -10,7 +9,6 @@ import {
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  AccordionIcon,
   Input,
   RadioGroup,
   Stack,
@@ -24,10 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-  Divider,
-  flattenTokens,
   IconButton,
-  Icon,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -36,7 +31,6 @@ import { useForm } from "react-hook-form";
 import { Header } from "../../components/Header";
 import { HelmetTitle } from "../../components/HelmetTitle";
 import { ErrMsg, radius } from "../../constant/parameter";
-import { BsDisplay } from "react-icons/bs";
 const currentPriority = "Priority";
 export const Todos = () => {
   const {
@@ -99,13 +93,14 @@ export const Todos = () => {
   }, [todos]);
   return (
     <>
-      <Container height={"100vh"} p={"20px 30px"}>
+      <Container height={"100vh"}>
         <HelmetTitle title={"Todo"} />
         <Box
-          border={"2px"}
-          borderColor={"gray.400"}
+          border={"1px"}
+          borderColor={"gray.200"}
           borderTop={0}
           borderBottomRadius={"20px"}
+          bgColor={"whiteAlpha.300"}
         >
           <Header Username={userdata.username} />
           <Box margin={"60px 20px"}>
@@ -118,7 +113,6 @@ export const Todos = () => {
             <Accordion allowToggle>
               <AccordionItem
                 border={"none"}
-                _hover={{ bgColor: "transparent" }}
                 display={"flex"}
                 flexDirection={"column"}
                 alignItems={"center"}
@@ -126,13 +120,13 @@ export const Todos = () => {
                 {({ isExpanded }) => (
                   <>
                     <AccordionButton
-                      bgColor={"gray.300"}
+                      bgColor={"gray.200"}
                       display={"flex"}
                       justifyContent={"center"}
                       width={30}
                       borderRadius={"50%"}
-                      w={"20px"}
-                      h={"30px"}
+                      w={"60px"}
+                      h={"60px"}
                       marginTop={"30px"}
                     >
                       {isExpanded ? (
@@ -203,10 +197,9 @@ export const Todos = () => {
                           type="submit"
                           borderRadius={radius.main}
                           height={7}
-                          alignSelf={"flex-end"}
                           marginTop={10}
                         >
-                          제출
+                          추가
                         </Button>
                       </Box>
                     </AccordionPanel>
@@ -221,7 +214,7 @@ export const Todos = () => {
           {userdata &&
             todos.map((rsl) => (
               <Box
-                bgColor={"white.400"}
+                bgColor={"whiteAlpha.50"}
                 key={rsl.id}
                 display={"flex"}
                 width={"100%"}
@@ -231,14 +224,10 @@ export const Todos = () => {
                 borderRadius={10}
                 marginTop={5}
                 boxShadow={"lg"}
+                onClick={() => onChanges(rsl.id)}
               >
-                <Checkbox
-                  p={"15px"}
-                  size={"lg"}
-                  isChecked={rsl.finish}
-                  onChange={() => onChanges(rsl.id)}
-                />
-                <VStack>
+                <Checkbox p={"15px"} size={"lg"} isChecked={rsl.finish} />
+                <VStack alignItems={"flex-start"}>
                   <Text fontSize={"20px"}>{rsl.Schedule}</Text>
                   <RadioGroup value={rsl.Priority}>
                     <Stack direction={"row"} spacing={10}>
@@ -273,7 +262,7 @@ export const Todos = () => {
 
               <AlertDialogBody>정말 삭제하시겠습니까?</AlertDialogBody>
               <AlertDialogFooter>
-                <Button ref={cancelRef} onClick={onClose}>
+                <Button ref={cancelRef} onClick={onClose} marginRight={10}>
                   취소
                 </Button>
                 <Button
@@ -282,6 +271,7 @@ export const Todos = () => {
                     onClose();
                     //onClose는 닫기이다.
                   }}
+                  colorScheme="red"
                 >
                   삭제
                 </Button>
